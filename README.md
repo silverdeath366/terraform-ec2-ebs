@@ -2,15 +2,25 @@
 
 This project provisions a basic AWS infrastructure using Terraform.
 
-###  What It Creates:
-- A custom VPC with a public subnet
-- An internet gateway with route table for outbound internet access
-- A security group allowing SSH access from a defined IP
-- An EC2 instance running Ubuntu in the selected AZ
-- An attached EBS volume (1GB) mounted automatically at `/mnt/data`
+What it creates: a custom VPC with a public subnet, an internet gateway with route table for outbound access, a security group allowing SSH from a defined IP, an EC2 instance running Ubuntu, and an EBS volume (1GB) mounted automatically at /mnt/data.
 
----
+How to use: 1) Replace `<your-ip>/32` in the security group rule. 2) Make sure the key pair (e.g. flask-nginx-key) exists in your region. 3) In terminal run:
 
-##  How to Use
+terraform init  
+terraform apply
 
-1. Replace `<your-ip>/32` in the `aws_security_group_rule` with your actual public IP.
+After apply, SSH into the EC2 and run:
+
+df -h
+
+You should see /mnt/data listed.
+
+Requirements: Terraform v1.x+, AWS CLI or configured credentials, and a valid AWS key pair.
+
+Notes: The EBS volume is formatted and mounted via user_data on boot and persists using /etc/fstab.
+
+To push this file:
+
+git add README.md  
+git commit -m "Final simple README"  
+git push
